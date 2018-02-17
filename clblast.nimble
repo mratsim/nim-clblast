@@ -11,7 +11,7 @@ srcDir        = "src"
 ### Dependencies
 requires "nim >= 0.17.2", "opencl"
 
-task autogen, "Automatically generate up-to-date CLBlast bindings (requirs nimgen)":
+task autogen, "Automatically generate up-to-date CLBlast bindings (requires nimgen)":
   exec "nimgen clblast_nimgen.cfg"
   if dirExists"src/generated":
     echo "src/generated directory exists and will replaced by up-to-date bindings"
