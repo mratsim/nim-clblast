@@ -12,4 +12,4 @@ type CLBlastError* = object of IOError
 template check*(status: CLBlastStatusCode) =
   if unlikely(status != CLBlastSuccess):
     raise newException(CLBlastError,
-      "CLBlast encoutered an error: [Code " & $int(a) & "]: " & $a)
+      "CLBlast encoutered an error: [Code " & $int(status) & "]: " & $status)
