@@ -10,6 +10,7 @@ export clblast_c #, clblast_netlib_c
 type CLBlastError* = object of IOError
 
 template check*(status: CLBlastStatusCode) =
-  if unlikely(status != CLBlastSuccess):
+  let code = status # Ensure that the expression is only evaluated once, especially if there are side-effects
+  if unlikely(code != CLBlastSuccess):
     raise newException(CLBlastError,
-      "CLBlast encoutered an error: [Code " & $int(status) & "]: " & $status)
+      "CLBlast encoutered an error: [Code " & $int(code) & "]: " & $code)
