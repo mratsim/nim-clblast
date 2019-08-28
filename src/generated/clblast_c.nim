@@ -14,40 +14,37 @@ when defined(Linux):
 when defined(MacOSX):
   const dynlibclblast_c = "libclblast.dylib"
 
-
-
-
 type
   CLBlastStatusCode* {.size: sizeof(cint).} = enum
-    CLBlastInvalidBatchCount = -2049, CLBlastInvalidOverrideKernel = -2048,
-    CLBlastMissingOverrideParameter = -2047, CLBlastInvalidLocalMemUsage = -2046,
-    CLBlastNoHalfPrecision = -2045, CLBlastNoDoublePrecision = -2044,
-    CLBlastInvalidVectorScalar = -2043, CLBlastInsufficientMemoryScalar = -2042,
-    CLBlastDatabaseError = -2041, CLBlastUnknownError = -2040,
-    CLBlastUnexpectedError = -2039, CLBlastNotImplemented = -1024,
-    CLBlastInvalidMatrixA = -1022, CLBlastInvalidMatrixB = -1021,
-    CLBlastInvalidMatrixC = -1020, CLBlastInvalidVectorX = -1019,
-    CLBlastInvalidVectorY = -1018, CLBlastInvalidDimension = -1017,
-    CLBlastInvalidLeadDimA = -1016, CLBlastInvalidLeadDimB = -1015,
-    CLBlastInvalidLeadDimC = -1014, CLBlastInvalidIncrementX = -1013,
-    CLBlastInvalidIncrementY = -1012, CLBlastInsufficientMemoryA = -1011,
-    CLBlastInsufficientMemoryB = -1010, CLBlastInsufficientMemoryC = -1009,
-    CLBlastInsufficientMemoryX = -1008, CLBlastInsufficientMemoryY = -1007,
-    CLBlastInvalidGlobalWorkSize = -63, CLBlastInvalidBufferSize = -61,
-    CLBlastInvalidOperation = -59, CLBlastInvalidEvent = -58,
-    CLBlastInvalidEventWaitList = -57, CLBlastInvalidGlobalOffset = -56,
-    CLBlastInvalidLocalThreadsDim = -55, CLBlastInvalidLocalThreadsTotal = -54,
-    CLBlastInvalidLocalNumDimensions = -53, CLBlastInvalidKernelArgs = -52,
-    CLBlastInvalidArgSize = -51, CLBlastInvalidArgValue = -50,
-    CLBlastInvalidArgIndex = -49, CLBlastInvalidKernel = -48,
-    CLBlastInvalidKernelDefinition = -47, CLBlastInvalidKernelName = -46,
-    CLBlastInvalidProgramExecutable = -45, CLBlastInvalidProgram = -44,
-    CLBlastInvalidBuildOptions = -43, CLBlastInvalidBinary = -42,
-    CLBlastInvalidMemObject = -38, CLBlastInvalidCommandQueue = -36,
-    CLBlastInvalidValue = -30, CLBlastOpenCLBuildProgramFailure = -11,
-    CLBlastOpenCLOutOfHostMemory = -6, CLBlastOpenCLOutOfResources = -5,
-    CLBlastTempBufferAllocFailure = -4, CLBlastOpenCLCompilerNotAvailable = -3,
-    CLBlastSuccess = 0
+    CLBlastInsufficientMemoryTemp = -2050, CLBlastInvalidBatchCount = -2049,
+    CLBlastInvalidOverrideKernel = -2048, CLBlastMissingOverrideParameter = -2047,
+    CLBlastInvalidLocalMemUsage = -2046, CLBlastNoHalfPrecision = -2045,
+    CLBlastNoDoublePrecision = -2044, CLBlastInvalidVectorScalar = -2043,
+    CLBlastInsufficientMemoryScalar = -2042, CLBlastDatabaseError = -2041,
+    CLBlastUnknownError = -2040, CLBlastUnexpectedError = -2039,
+    CLBlastNotImplemented = -1024, CLBlastInvalidMatrixA = -1022,
+    CLBlastInvalidMatrixB = -1021, CLBlastInvalidMatrixC = -1020,
+    CLBlastInvalidVectorX = -1019, CLBlastInvalidVectorY = -1018,
+    CLBlastInvalidDimension = -1017, CLBlastInvalidLeadDimA = -1016,
+    CLBlastInvalidLeadDimB = -1015, CLBlastInvalidLeadDimC = -1014,
+    CLBlastInvalidIncrementX = -1013, CLBlastInvalidIncrementY = -1012,
+    CLBlastInsufficientMemoryA = -1011, CLBlastInsufficientMemoryB = -1010,
+    CLBlastInsufficientMemoryC = -1009, CLBlastInsufficientMemoryX = -1008,
+    CLBlastInsufficientMemoryY = -1007, CLBlastInvalidGlobalWorkSize = -63,
+    CLBlastInvalidBufferSize = -61, CLBlastInvalidOperation = -59,
+    CLBlastInvalidEvent = -58, CLBlastInvalidEventWaitList = -57,
+    CLBlastInvalidGlobalOffset = -56, CLBlastInvalidLocalThreadsDim = -55,
+    CLBlastInvalidLocalThreadsTotal = -54, CLBlastInvalidLocalNumDimensions = -53,
+    CLBlastInvalidKernelArgs = -52, CLBlastInvalidArgSize = -51,
+    CLBlastInvalidArgValue = -50, CLBlastInvalidArgIndex = -49,
+    CLBlastInvalidKernel = -48, CLBlastInvalidKernelDefinition = -47,
+    CLBlastInvalidKernelName = -46, CLBlastInvalidProgramExecutable = -45,
+    CLBlastInvalidProgram = -44, CLBlastInvalidBuildOptions = -43,
+    CLBlastInvalidBinary = -42, CLBlastInvalidMemObject = -38,
+    CLBlastInvalidCommandQueue = -36, CLBlastInvalidValue = -30,
+    CLBlastOpenCLBuildProgramFailure = -11, CLBlastOpenCLOutOfHostMemory = -6,
+    CLBlastOpenCLOutOfResources = -5, CLBlastTempBufferAllocFailure = -4,
+    CLBlastOpenCLCompilerNotAvailable = -3, CLBlastSuccess = 0
   CLBlastLayout* {.size: sizeof(cint).} = enum
     CLBlastLayoutRowMajor = 101, CLBlastLayoutColMajor = 102
   CLBlastTranspose* {.size: sizeof(cint).} = enum
@@ -59,10 +56,13 @@ type
     CLBlastDiagonalNonUnit = 131, CLBlastDiagonalUnit = 132
   CLBlastSide* {.size: sizeof(cint).} = enum
     CLBlastSideLeft = 141, CLBlastSideRight = 142
+  CLBlastKernelMode* {.size: sizeof(cint).} = enum
+    CLBlastKernelModeCrossCorrelation = 151, CLBlastKernelModeConvolution = 152
   CLBlastPrecision* {.size: sizeof(cint).} = enum
     CLBlastPrecisionHalf = 16, CLBlastPrecisionSingle = 32,
     CLBlastPrecisionDouble = 64, CLBlastPrecisionComplexSingle = 3232,
     CLBlastPrecisionComplexDouble = 6464
+
 
 
 
@@ -1069,41 +1069,103 @@ proc clblastHomatcopy*(layout: CLBlastLayout; a_transpose: CLBlastTranspose;
                       a_offset: csize; a_ld: csize; b_buffer: Pmem; b_offset: csize;
                       b_ld: csize; queue: ptr Pcommand_queue; event: ptr Pevent): CLBlastStatusCode {.
     stdcall, importc: "CLBlastHomatcopy", dynlib: dynlibclblast_c.}
-proc clblastSim2col*(channels: csize; height: csize; width: csize; kernel_h: csize;
-                    kernel_w: csize; pad_h: csize; pad_w: csize; stride_h: csize;
-                    stride_w: csize; dilation_h: csize; dilation_w: csize;
-                    im_buffer: Pmem; im_offset: csize; col_buffer: Pmem;
-                    col_offset: csize; queue: ptr Pcommand_queue;
-                    event: ptr Pevent): CLBlastStatusCode {.stdcall,
-    importc: "CLBlastSim2col", dynlib: dynlibclblast_c.}
-proc clblastDim2col*(channels: csize; height: csize; width: csize; kernel_h: csize;
-                    kernel_w: csize; pad_h: csize; pad_w: csize; stride_h: csize;
-                    stride_w: csize; dilation_h: csize; dilation_w: csize;
-                    im_buffer: Pmem; im_offset: csize; col_buffer: Pmem;
-                    col_offset: csize; queue: ptr Pcommand_queue;
-                    event: ptr Pevent): CLBlastStatusCode {.stdcall,
-    importc: "CLBlastDim2col", dynlib: dynlibclblast_c.}
-proc clblastCim2col*(channels: csize; height: csize; width: csize; kernel_h: csize;
-                    kernel_w: csize; pad_h: csize; pad_w: csize; stride_h: csize;
-                    stride_w: csize; dilation_h: csize; dilation_w: csize;
-                    im_buffer: Pmem; im_offset: csize; col_buffer: Pmem;
-                    col_offset: csize; queue: ptr Pcommand_queue;
-                    event: ptr Pevent): CLBlastStatusCode {.stdcall,
-    importc: "CLBlastCim2col", dynlib: dynlibclblast_c.}
-proc clblastZim2col*(channels: csize; height: csize; width: csize; kernel_h: csize;
-                    kernel_w: csize; pad_h: csize; pad_w: csize; stride_h: csize;
-                    stride_w: csize; dilation_h: csize; dilation_w: csize;
-                    im_buffer: Pmem; im_offset: csize; col_buffer: Pmem;
-                    col_offset: csize; queue: ptr Pcommand_queue;
-                    event: ptr Pevent): CLBlastStatusCode {.stdcall,
-    importc: "CLBlastZim2col", dynlib: dynlibclblast_c.}
-proc clblastHim2col*(channels: csize; height: csize; width: csize; kernel_h: csize;
-                    kernel_w: csize; pad_h: csize; pad_w: csize; stride_h: csize;
-                    stride_w: csize; dilation_h: csize; dilation_w: csize;
-                    im_buffer: Pmem; im_offset: csize; col_buffer: Pmem;
-                    col_offset: csize; queue: ptr Pcommand_queue;
-                    event: ptr Pevent): CLBlastStatusCode {.stdcall,
-    importc: "CLBlastHim2col", dynlib: dynlibclblast_c.}
+proc clblastSim2col*(kernel_mode: CLBlastKernelMode; channels: csize; height: csize;
+                    width: csize; kernel_h: csize; kernel_w: csize; pad_h: csize;
+                    pad_w: csize; stride_h: csize; stride_w: csize; dilation_h: csize;
+                    dilation_w: csize; im_buffer: Pmem; im_offset: csize;
+                    col_buffer: Pmem; col_offset: csize;
+                    queue: ptr Pcommand_queue; event: ptr Pevent): CLBlastStatusCode {.
+    stdcall, importc: "CLBlastSim2col", dynlib: dynlibclblast_c.}
+proc clblastDim2col*(kernel_mode: CLBlastKernelMode; channels: csize; height: csize;
+                    width: csize; kernel_h: csize; kernel_w: csize; pad_h: csize;
+                    pad_w: csize; stride_h: csize; stride_w: csize; dilation_h: csize;
+                    dilation_w: csize; im_buffer: Pmem; im_offset: csize;
+                    col_buffer: Pmem; col_offset: csize;
+                    queue: ptr Pcommand_queue; event: ptr Pevent): CLBlastStatusCode {.
+    stdcall, importc: "CLBlastDim2col", dynlib: dynlibclblast_c.}
+proc clblastCim2col*(kernel_mode: CLBlastKernelMode; channels: csize; height: csize;
+                    width: csize; kernel_h: csize; kernel_w: csize; pad_h: csize;
+                    pad_w: csize; stride_h: csize; stride_w: csize; dilation_h: csize;
+                    dilation_w: csize; im_buffer: Pmem; im_offset: csize;
+                    col_buffer: Pmem; col_offset: csize;
+                    queue: ptr Pcommand_queue; event: ptr Pevent): CLBlastStatusCode {.
+    stdcall, importc: "CLBlastCim2col", dynlib: dynlibclblast_c.}
+proc clblastZim2col*(kernel_mode: CLBlastKernelMode; channels: csize; height: csize;
+                    width: csize; kernel_h: csize; kernel_w: csize; pad_h: csize;
+                    pad_w: csize; stride_h: csize; stride_w: csize; dilation_h: csize;
+                    dilation_w: csize; im_buffer: Pmem; im_offset: csize;
+                    col_buffer: Pmem; col_offset: csize;
+                    queue: ptr Pcommand_queue; event: ptr Pevent): CLBlastStatusCode {.
+    stdcall, importc: "CLBlastZim2col", dynlib: dynlibclblast_c.}
+proc clblastHim2col*(kernel_mode: CLBlastKernelMode; channels: csize; height: csize;
+                    width: csize; kernel_h: csize; kernel_w: csize; pad_h: csize;
+                    pad_w: csize; stride_h: csize; stride_w: csize; dilation_h: csize;
+                    dilation_w: csize; im_buffer: Pmem; im_offset: csize;
+                    col_buffer: Pmem; col_offset: csize;
+                    queue: ptr Pcommand_queue; event: ptr Pevent): CLBlastStatusCode {.
+    stdcall, importc: "CLBlastHim2col", dynlib: dynlibclblast_c.}
+proc clblastScol2im*(kernel_mode: CLBlastKernelMode; channels: csize; height: csize;
+                    width: csize; kernel_h: csize; kernel_w: csize; pad_h: csize;
+                    pad_w: csize; stride_h: csize; stride_w: csize; dilation_h: csize;
+                    dilation_w: csize; col_buffer: Pmem; col_offset: csize;
+                    im_buffer: Pmem; im_offset: csize;
+                    queue: ptr Pcommand_queue; event: ptr Pevent): CLBlastStatusCode {.
+    stdcall, importc: "CLBlastScol2im", dynlib: dynlibclblast_c.}
+proc clblastDcol2im*(kernel_mode: CLBlastKernelMode; channels: csize; height: csize;
+                    width: csize; kernel_h: csize; kernel_w: csize; pad_h: csize;
+                    pad_w: csize; stride_h: csize; stride_w: csize; dilation_h: csize;
+                    dilation_w: csize; col_buffer: Pmem; col_offset: csize;
+                    im_buffer: Pmem; im_offset: csize;
+                    queue: ptr Pcommand_queue; event: ptr Pevent): CLBlastStatusCode {.
+    stdcall, importc: "CLBlastDcol2im", dynlib: dynlibclblast_c.}
+proc clblastCcol2im*(kernel_mode: CLBlastKernelMode; channels: csize; height: csize;
+                    width: csize; kernel_h: csize; kernel_w: csize; pad_h: csize;
+                    pad_w: csize; stride_h: csize; stride_w: csize; dilation_h: csize;
+                    dilation_w: csize; col_buffer: Pmem; col_offset: csize;
+                    im_buffer: Pmem; im_offset: csize;
+                    queue: ptr Pcommand_queue; event: ptr Pevent): CLBlastStatusCode {.
+    stdcall, importc: "CLBlastCcol2im", dynlib: dynlibclblast_c.}
+proc clblastZcol2im*(kernel_mode: CLBlastKernelMode; channels: csize; height: csize;
+                    width: csize; kernel_h: csize; kernel_w: csize; pad_h: csize;
+                    pad_w: csize; stride_h: csize; stride_w: csize; dilation_h: csize;
+                    dilation_w: csize; col_buffer: Pmem; col_offset: csize;
+                    im_buffer: Pmem; im_offset: csize;
+                    queue: ptr Pcommand_queue; event: ptr Pevent): CLBlastStatusCode {.
+    stdcall, importc: "CLBlastZcol2im", dynlib: dynlibclblast_c.}
+proc clblastHcol2im*(kernel_mode: CLBlastKernelMode; channels: csize; height: csize;
+                    width: csize; kernel_h: csize; kernel_w: csize; pad_h: csize;
+                    pad_w: csize; stride_h: csize; stride_w: csize; dilation_h: csize;
+                    dilation_w: csize; col_buffer: Pmem; col_offset: csize;
+                    im_buffer: Pmem; im_offset: csize;
+                    queue: ptr Pcommand_queue; event: ptr Pevent): CLBlastStatusCode {.
+    stdcall, importc: "CLBlastHcol2im", dynlib: dynlibclblast_c.}
+proc clblastSconvgemm*(kernel_mode: CLBlastKernelMode; channels: csize;
+                      height: csize; width: csize; kernel_h: csize; kernel_w: csize;
+                      pad_h: csize; pad_w: csize; stride_h: csize; stride_w: csize;
+                      dilation_h: csize; dilation_w: csize; num_kernels: csize;
+                      batch_count: csize; im_buffer: Pmem; im_offset: csize;
+                      kernel_buffer: Pmem; kernel_offset: csize;
+                      result_buffer: Pmem; result_offset: csize;
+                      queue: ptr Pcommand_queue; event: ptr Pevent): CLBlastStatusCode {.
+    stdcall, importc: "CLBlastSconvgemm", dynlib: dynlibclblast_c.}
+proc clblastDconvgemm*(kernel_mode: CLBlastKernelMode; channels: csize;
+                      height: csize; width: csize; kernel_h: csize; kernel_w: csize;
+                      pad_h: csize; pad_w: csize; stride_h: csize; stride_w: csize;
+                      dilation_h: csize; dilation_w: csize; num_kernels: csize;
+                      batch_count: csize; im_buffer: Pmem; im_offset: csize;
+                      kernel_buffer: Pmem; kernel_offset: csize;
+                      result_buffer: Pmem; result_offset: csize;
+                      queue: ptr Pcommand_queue; event: ptr Pevent): CLBlastStatusCode {.
+    stdcall, importc: "CLBlastDconvgemm", dynlib: dynlibclblast_c.}
+proc clblastHconvgemm*(kernel_mode: CLBlastKernelMode; channels: csize;
+                      height: csize; width: csize; kernel_h: csize; kernel_w: csize;
+                      pad_h: csize; pad_w: csize; stride_h: csize; stride_w: csize;
+                      dilation_h: csize; dilation_w: csize; num_kernels: csize;
+                      batch_count: csize; im_buffer: Pmem; im_offset: csize;
+                      kernel_buffer: Pmem; kernel_offset: csize;
+                      result_buffer: Pmem; result_offset: csize;
+                      queue: ptr Pcommand_queue; event: ptr Pevent): CLBlastStatusCode {.
+    stdcall, importc: "CLBlastHconvgemm", dynlib: dynlibclblast_c.}
 proc clblastSaxpyBatched*(n: csize; alphas: ptr cfloat; x_buffer: Pmem;
                          x_offsets: ptr csize; x_inc: csize; y_buffer: Pmem;
                          y_offsets: ptr csize; y_inc: csize; batch_count: csize;
@@ -1226,6 +1288,96 @@ proc clblastHgemmStridedBatched*(layout: CLBlastLayout;
                                 batch_count: csize; queue: ptr Pcommand_queue;
                                 event: ptr Pevent): CLBlastStatusCode {.stdcall,
     importc: "CLBlastHgemmStridedBatched", dynlib: dynlibclblast_c.}
+proc clblastSgemmWithTempBuffer*(layout: CLBlastLayout;
+                                a_transpose: CLBlastTranspose;
+                                b_transpose: CLBlastTranspose; m: csize; n: csize;
+                                k: csize; alpha: cfloat; a_buffer: Pmem;
+                                a_offset: csize; a_ld: csize; b_buffer: Pmem;
+                                b_offset: csize; b_ld: csize; beta: cfloat;
+                                c_buffer: Pmem; c_offset: csize; c_ld: csize;
+                                queue: ptr Pcommand_queue; event: ptr Pevent;
+                                temp_buffer: Pmem): CLBlastStatusCode {.stdcall,
+    importc: "CLBlastSgemmWithTempBuffer", dynlib: dynlibclblast_c.}
+proc clblastDgemmWithTempBuffer*(layout: CLBlastLayout;
+                                a_transpose: CLBlastTranspose;
+                                b_transpose: CLBlastTranspose; m: csize; n: csize;
+                                k: csize; alpha: cdouble; a_buffer: Pmem;
+                                a_offset: csize; a_ld: csize; b_buffer: Pmem;
+                                b_offset: csize; b_ld: csize; beta: cdouble;
+                                c_buffer: Pmem; c_offset: csize; c_ld: csize;
+                                queue: ptr Pcommand_queue; event: ptr Pevent;
+                                temp_buffer: Pmem): CLBlastStatusCode {.stdcall,
+    importc: "CLBlastDgemmWithTempBuffer", dynlib: dynlibclblast_c.}
+proc clblastCgemmWithTempBuffer*(layout: CLBlastLayout;
+                                a_transpose: CLBlastTranspose;
+                                b_transpose: CLBlastTranspose; m: csize; n: csize;
+                                k: csize; alpha: cl_float2; a_buffer: Pmem;
+                                a_offset: csize; a_ld: csize; b_buffer: Pmem;
+                                b_offset: csize; b_ld: csize; beta: cl_float2;
+                                c_buffer: Pmem; c_offset: csize; c_ld: csize;
+                                queue: ptr Pcommand_queue; event: ptr Pevent;
+                                temp_buffer: Pmem): CLBlastStatusCode {.stdcall,
+    importc: "CLBlastCgemmWithTempBuffer", dynlib: dynlibclblast_c.}
+proc clblastZgemmWithTempBuffer*(layout: CLBlastLayout;
+                                a_transpose: CLBlastTranspose;
+                                b_transpose: CLBlastTranspose; m: csize; n: csize;
+                                k: csize; alpha: cl_double2; a_buffer: Pmem;
+                                a_offset: csize; a_ld: csize; b_buffer: Pmem;
+                                b_offset: csize; b_ld: csize; beta: cl_double2;
+                                c_buffer: Pmem; c_offset: csize; c_ld: csize;
+                                queue: ptr Pcommand_queue; event: ptr Pevent;
+                                temp_buffer: Pmem): CLBlastStatusCode {.stdcall,
+    importc: "CLBlastZgemmWithTempBuffer", dynlib: dynlibclblast_c.}
+proc clblastHgemmWithTempBuffer*(layout: CLBlastLayout;
+                                a_transpose: CLBlastTranspose;
+                                b_transpose: CLBlastTranspose; m: csize; n: csize;
+                                k: csize; alpha: cl_half; a_buffer: Pmem;
+                                a_offset: csize; a_ld: csize; b_buffer: Pmem;
+                                b_offset: csize; b_ld: csize; beta: cl_half;
+                                c_buffer: Pmem; c_offset: csize; c_ld: csize;
+                                queue: ptr Pcommand_queue; event: ptr Pevent;
+                                temp_buffer: Pmem): CLBlastStatusCode {.stdcall,
+    importc: "CLBlastHgemmWithTempBuffer", dynlib: dynlibclblast_c.}
+proc clblastSGemmTempBufferSize*(layout: CLBlastLayout;
+                                a_transpose: CLBlastTranspose;
+                                b_transpose: CLBlastTranspose; m: csize; n: csize;
+                                k: csize; a_offset: csize; a_ld: csize;
+                                b_offset: csize; b_ld: csize; c_offset: csize;
+                                c_ld: csize; queue: ptr Pcommand_queue;
+                                temp_buffer_size: ptr csize): CLBlastStatusCode {.
+    stdcall, importc: "CLBlastSGemmTempBufferSize", dynlib: dynlibclblast_c.}
+proc clblastDGemmTempBufferSize*(layout: CLBlastLayout;
+                                a_transpose: CLBlastTranspose;
+                                b_transpose: CLBlastTranspose; m: csize; n: csize;
+                                k: csize; a_offset: csize; a_ld: csize;
+                                b_offset: csize; b_ld: csize; c_offset: csize;
+                                c_ld: csize; queue: ptr Pcommand_queue;
+                                temp_buffer_size: ptr csize): CLBlastStatusCode {.
+    stdcall, importc: "CLBlastDGemmTempBufferSize", dynlib: dynlibclblast_c.}
+proc clblastCGemmTempBufferSize*(layout: CLBlastLayout;
+                                a_transpose: CLBlastTranspose;
+                                b_transpose: CLBlastTranspose; m: csize; n: csize;
+                                k: csize; a_offset: csize; a_ld: csize;
+                                b_offset: csize; b_ld: csize; c_offset: csize;
+                                c_ld: csize; queue: ptr Pcommand_queue;
+                                temp_buffer_size: ptr csize): CLBlastStatusCode {.
+    stdcall, importc: "CLBlastCGemmTempBufferSize", dynlib: dynlibclblast_c.}
+proc clblastZGemmTempBufferSize*(layout: CLBlastLayout;
+                                a_transpose: CLBlastTranspose;
+                                b_transpose: CLBlastTranspose; m: csize; n: csize;
+                                k: csize; a_offset: csize; a_ld: csize;
+                                b_offset: csize; b_ld: csize; c_offset: csize;
+                                c_ld: csize; queue: ptr Pcommand_queue;
+                                temp_buffer_size: ptr csize): CLBlastStatusCode {.
+    stdcall, importc: "CLBlastZGemmTempBufferSize", dynlib: dynlibclblast_c.}
+proc clblastHGemmTempBufferSize*(layout: CLBlastLayout;
+                                a_transpose: CLBlastTranspose;
+                                b_transpose: CLBlastTranspose; m: csize; n: csize;
+                                k: csize; a_offset: csize; a_ld: csize;
+                                b_offset: csize; b_ld: csize; c_offset: csize;
+                                c_ld: csize; queue: ptr Pcommand_queue;
+                                temp_buffer_size: ptr csize): CLBlastStatusCode {.
+    stdcall, importc: "CLBlastHGemmTempBufferSize", dynlib: dynlibclblast_c.}
 proc clblastClearCache*(): CLBlastStatusCode {.stdcall,
     importc: "CLBlastClearCache", dynlib: dynlibclblast_c.}
 proc clblastFillCache*(device: Pdevice_id): CLBlastStatusCode {.stdcall,

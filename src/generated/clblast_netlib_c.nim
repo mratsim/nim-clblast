@@ -8,8 +8,9 @@ when defined(MacOSX):
   const dynlibclblast_netlib_c = "libclblast.dylib"
 
 
-
-
+const sourcePath = currentSourcePath().split({'\\', '/'})[0..^2].join("/")
+{.passC: "-I\"" & sourcePath & "\"".}
+{.passC: "-I\"" & sourcePath & "/include\"".}
 type
   CLBlastLayout* {.size: sizeof(cint).} = enum
     CLBlastLayoutRowMajor = 101, CLBlastLayoutColMajor = 102
@@ -22,11 +23,14 @@ type
     CLBlastDiagonalNonUnit = 131, CLBlastDiagonalUnit = 132
   CLBlastSide* {.size: sizeof(cint).} = enum
     CLBlastSideLeft = 141, CLBlastSideRight = 142
+  CLBlastKernelMode* {.size: sizeof(cint).} = enum
+    CLBlastKernelModeCrossCorrelation = 141, CLBlastKernelModeConvolution = 152
   CBLAS_ORDER* = CLBlastLayout
   CBLAS_TRANSPOSE* = CLBlastTranspose
   CBLAS_UPLO* = CLBlastTriangle
   CBLAS_DIAG* = CLBlastDiagonal
   CBLAS_SIDE* = CLBlastSide
+
 
 
 
@@ -583,23 +587,43 @@ proc cblas_zomatcopy*(layout: CLBlastLayout; a_transpose: CLBlastTranspose; m: c
                      n: cint; alpha: pointer; a: pointer; a_ld: cint; b: pointer;
                      b_ld: cint) {.stdcall, importc: "cblas_zomatcopy",
                                  dynlib: dynlibclblast_netlib_c.}
-proc cblas_sim2col*(channels: cint; height: cint; width: cint; kernel_h: cint;
-                   kernel_w: cint; pad_h: cint; pad_w: cint; stride_h: cint;
-                   stride_w: cint; dilation_h: cint; dilation_w: cint; im: ptr cfloat;
-                   col: ptr cfloat) {.stdcall, importc: "cblas_sim2col",
-                                   dynlib: dynlibclblast_netlib_c.}
-proc cblas_dim2col*(channels: cint; height: cint; width: cint; kernel_h: cint;
-                   kernel_w: cint; pad_h: cint; pad_w: cint; stride_h: cint;
-                   stride_w: cint; dilation_h: cint; dilation_w: cint;
-                   im: ptr cdouble; col: ptr cdouble) {.stdcall,
+proc cblas_sim2col*(kernel_mode: CLBlastKernelMode; channels: cint; height: cint;
+                   width: cint; kernel_h: cint; kernel_w: cint; pad_h: cint;
+                   pad_w: cint; stride_h: cint; stride_w: cint; dilation_h: cint;
+                   dilation_w: cint; im: ptr cfloat; col: ptr cfloat) {.stdcall,
+    importc: "cblas_sim2col", dynlib: dynlibclblast_netlib_c.}
+proc cblas_dim2col*(kernel_mode: CLBlastKernelMode; channels: cint; height: cint;
+                   width: cint; kernel_h: cint; kernel_w: cint; pad_h: cint;
+                   pad_w: cint; stride_h: cint; stride_w: cint; dilation_h: cint;
+                   dilation_w: cint; im: ptr cdouble; col: ptr cdouble) {.stdcall,
     importc: "cblas_dim2col", dynlib: dynlibclblast_netlib_c.}
-proc cblas_cim2col*(channels: cint; height: cint; width: cint; kernel_h: cint;
-                   kernel_w: cint; pad_h: cint; pad_w: cint; stride_h: cint;
-                   stride_w: cint; dilation_h: cint; dilation_w: cint; im: pointer;
-                   col: pointer) {.stdcall, importc: "cblas_cim2col",
-                                 dynlib: dynlibclblast_netlib_c.}
-proc cblas_zim2col*(channels: cint; height: cint; width: cint; kernel_h: cint;
-                   kernel_w: cint; pad_h: cint; pad_w: cint; stride_h: cint;
-                   stride_w: cint; dilation_h: cint; dilation_w: cint; im: pointer;
-                   col: pointer) {.stdcall, importc: "cblas_zim2col",
-                                 dynlib: dynlibclblast_netlib_c.}
+proc cblas_cim2col*(kernel_mode: CLBlastKernelMode; channels: cint; height: cint;
+                   width: cint; kernel_h: cint; kernel_w: cint; pad_h: cint;
+                   pad_w: cint; stride_h: cint; stride_w: cint; dilation_h: cint;
+                   dilation_w: cint; im: pointer; col: pointer) {.stdcall,
+    importc: "cblas_cim2col", dynlib: dynlibclblast_netlib_c.}
+proc cblas_zim2col*(kernel_mode: CLBlastKernelMode; channels: cint; height: cint;
+                   width: cint; kernel_h: cint; kernel_w: cint; pad_h: cint;
+                   pad_w: cint; stride_h: cint; stride_w: cint; dilation_h: cint;
+                   dilation_w: cint; im: pointer; col: pointer) {.stdcall,
+    importc: "cblas_zim2col", dynlib: dynlibclblast_netlib_c.}
+proc cblas_scol2im*(kernel_mode: CLBlastKernelMode; channels: cint; height: cint;
+                   width: cint; kernel_h: cint; kernel_w: cint; pad_h: cint;
+                   pad_w: cint; stride_h: cint; stride_w: cint; dilation_h: cint;
+                   dilation_w: cint; col: ptr cfloat; im: ptr cfloat) {.stdcall,
+    importc: "cblas_scol2im", dynlib: dynlibclblast_netlib_c.}
+proc cblas_dcol2im*(kernel_mode: CLBlastKernelMode; channels: cint; height: cint;
+                   width: cint; kernel_h: cint; kernel_w: cint; pad_h: cint;
+                   pad_w: cint; stride_h: cint; stride_w: cint; dilation_h: cint;
+                   dilation_w: cint; col: ptr cdouble; im: ptr cdouble) {.stdcall,
+    importc: "cblas_dcol2im", dynlib: dynlibclblast_netlib_c.}
+proc cblas_ccol2im*(kernel_mode: CLBlastKernelMode; channels: cint; height: cint;
+                   width: cint; kernel_h: cint; kernel_w: cint; pad_h: cint;
+                   pad_w: cint; stride_h: cint; stride_w: cint; dilation_h: cint;
+                   dilation_w: cint; col: pointer; im: pointer) {.stdcall,
+    importc: "cblas_ccol2im", dynlib: dynlibclblast_netlib_c.}
+proc cblas_zcol2im*(kernel_mode: CLBlastKernelMode; channels: cint; height: cint;
+                   width: cint; kernel_h: cint; kernel_w: cint; pad_h: cint;
+                   pad_w: cint; stride_h: cint; stride_w: cint; dilation_h: cint;
+                   dilation_w: cint; col: pointer; im: pointer) {.stdcall,
+    importc: "cblas_zcol2im", dynlib: dynlibclblast_netlib_c.}
