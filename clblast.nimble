@@ -1,6 +1,6 @@
 ### Package
 packageName   = "clblast"
-version       = "0.0.1"
+version       = "0.0.2"
 author        = "Mamy André-Ratsimbazafy"
 description   = "A wrapper for CLBlast, an OpenCL BLAS library"
 license       = "Apache License 2.0"
