@@ -1,11 +1,7 @@
-
-
-
 const headerclblast_half = "clblast_half.h"
 type
   half* = cushort
-  ConversionBits* {.importc: "ConversionBits", header: headerclblast_half, bycopy.} = object {.
-      union.}
+  ConversionBits* {.importc: "ConversionBits", header: headerclblast_half, bycopy, union.} = object
     i32* {.importc: "i32".}: cuint
     f32* {.importc: "f32".}: cfloat
 
